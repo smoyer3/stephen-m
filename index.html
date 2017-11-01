@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<script src="asyncReq.js"> </script>
+<script>
+var oldObj = {}
+var oldTemp
+var oldHumidity
+var oldLight
+
+  var x = function(){
+    loadFile("./getData", function(data){
+      var obj = JSON.parse(data);
+      var lD = obj.light - oldObj.light;
+      var tD = obj.temp - oldObj.temp;
+      var hD = obj.humidity - oldObj.humidity;
+      var ld = "black"
+      var markup = ""
+        markup += "<b>LIGHT:</b> " + obj.light + "(" + lD + ")"
+        markup += "<br> <b>TEMP:</b> " + obj.temp + "(" + tD + ")"
+        markup += "<br> <b>HUMIDITY:</b> " + obj.humidity; + "(" + hD + ")"
+        document.getElementById("results").innerHTML = markup
+        oldObj = obj
+    });
+  }
+function start()
+{
+  x();
+  setInterval("x()", 1000);
+}
+</script>
+
+</head>
+
+<body onload='start()'>
+<h1> TEST </h1>
+
+<div id='results'> </div>
+
+</body>
+</html>
